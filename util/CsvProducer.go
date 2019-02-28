@@ -9,6 +9,8 @@ import (
 	"bufio"
 )
 
+var Channel = make(chan string, 100000)
+
 func ReadCsv(path string)  {
 	fileObj, err := os.Open(path)
 	size :=0
@@ -17,11 +19,10 @@ func ReadCsv(path string)  {
 	}
 	defer fileObj.Close()
 	reader := bufio.NewReader(fileObj)
-	buf := make([]byte,1024*1024*1024*40)
 	timestamp := time.Now().Unix()
 	fmt.Println("startAt:",timestamp)
 	for {
-		_,err := reader.Read(buf)
+		line,err := reader.ReadString('\n')
 		if err == io.EOF {
 			break
 		}
@@ -29,7 +30,7 @@ func ReadCsv(path string)  {
 			log.Fatal(err)
 		}
 		size++
-		fmt.Println("Part size:",size)
+		Channel <- line
 	}
 	fmt.Println("Total size:",size)
 	timestamp2 := time.Now().Unix()

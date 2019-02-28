@@ -2,11 +2,15 @@ package main
 
 import (
 	"clusterdata-go/util"
-	"runtime/debug"
+	time "time"
 )
 
 func main() {
-	debug.SetMaxStack(1024*1024*20)
 	//util.ReadCsv("E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_task.csv")
-	util.ReadCsv("E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv")
+	//util.ReadCsv("E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv")
+	go util.ReadCsv("E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv")
+	time.Sleep(3 * time.Second)
+	go util.ConvertCsv()
+
+	time.Sleep(20 * time.Second)
 }
