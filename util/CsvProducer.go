@@ -2,7 +2,6 @@ package util
 
 import (
 	"log"
-	"fmt"
 	"io"
 	"time"
 	"os"
@@ -11,16 +10,20 @@ import (
 
 var Channel = make(chan string, 100000)
 
+func CurrentTime() int64 {
+	timestamp := time.Now().Unix()
+	log.Println("Current start or end At:",timestamp)
+	return timestamp;
+}
+
 func ReadCsv(path string)  {
 	fileObj, err := os.Open(path)
-	size :=0
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer fileObj.Close()
 	reader := bufio.NewReader(fileObj)
-	timestamp := time.Now().Unix()
-	fmt.Println("startAt:",timestamp)
+	startTime := CurrentTime()
 	for {
 		line,err := reader.ReadString('\n')
 		if err == io.EOF {
@@ -29,11 +32,9 @@ func ReadCsv(path string)  {
 		if err != nil {
 			log.Fatal(err)
 		}
-		size++
 		Channel <- line
 	}
-	fmt.Println("Total size:",size)
-	timestamp2 := time.Now().Unix()
-	fmt.Println("endAt:",timestamp2)
-	fmt.Println("Total Seconds:",(timestamp2-timestamp))
+	endTime := CurrentTime()
+	log.Println("Total Producer Seconds:",(endTime-startTime))
+	close(Channel)
 }

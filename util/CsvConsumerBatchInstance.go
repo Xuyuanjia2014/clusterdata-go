@@ -1,17 +1,24 @@
 package util
 
 import (
-	"fmt"
+	"log"
+	"time"
 )
 
 func ConvertCsv()  {
-	fmt.Println("start convert")
-	size :=0;
+	timestamp := time.Now().Unix()
+	log.Println("Comsumer starts at",timestamp)
+	var size int64;
+	size = 0
+	startTime := CurrentTime()
 	for x := range Channel{
-		fmt.Println(x)
+		//log.Println(x)
 		size++;
-		if size >10 {
-			break
+		if size%10000000 == 0{
+			log.Println("size ten million:",size)
+			log.Println(x)
 		}
 	}
+	endTime := CurrentTime()
+	log.Println("Total Consumer Seconds:",(endTime-startTime))
 }

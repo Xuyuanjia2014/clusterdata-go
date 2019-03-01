@@ -12,5 +12,5 @@ func main() {
 	time.Sleep(3 * time.Second)
 	go util.ConvertCsv()
 
-	time.Sleep(20 * time.Second)
+	time.Sleep(7200 * time.Second)
 }
