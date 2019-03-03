@@ -5,6 +5,8 @@ import (
 	"log"
 	"strconv"
 	"gopkg.in/yaml.v2"
+	"os"
+	"fmt"
 )
 
 type AppDu struct {
@@ -20,12 +22,12 @@ type Container struct {
 	MemSize float64 `yaml:"ms"`
 	Status string `yaml:"sta"`
 	Ucounts int `yaml:"ucs"`
-	Usages []CUsage `yaml:"Usages,flow"`
+	Usages map[int]CUsage `yaml:"Usages,flow"`
 }
 
 type CUsage struct {
 	MachineId string `yaml:"mid"`
-	TimeStamp int `yaml:"ts"`
+	//TimeStamp int `yaml:"ts"`
 	CpuPercent int `yaml:"cp"`
 	Mpki int `yaml:"mpki"`
 	Cpi float64 `yaml:"cpi"`
@@ -38,6 +40,7 @@ type CUsage struct {
 
 //var App AppDu = AppDu{Containers:make(map[string]Container)}
 var Apps = make(map[string]AppDu)
+var Containers = make(map[string]Container)
 
 func ContainersProcess(line string, size int64)  {
 	var app AppDu
@@ -88,45 +91,77 @@ func InitContainerMeta(name string){
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	log.Println("Load containers' meta information")
+	for _,value1 := range Apps {
+		for key2,value2 := range value1.Containers {
+			Containers[key2] = value2
+		}
+	}
+	log.Println("Load containers' meta information:", len(Containers))
 }
 
 func ContainerUsageProcess(line string, size int64)  {
-	var machine Machine
-	var usages map[int]MUsage
+	var container Container
+	var usages map[int]CUsage
 
 	csv := strings.Split(line,",")
-	ts ,_:= strconv.Atoi(csv[1])
+	ts ,_:= strconv.Atoi(csv[2])
 
-	if ts >= 3600*12{
-		return
-	}
-	if len(csv) != 9 {
+	if len(csv) != 11 {
 		log.Println("Bad line:"+line)
 		return
 	}
-	_,ok := Machines[csv[0]]
+	_,ok := Containers[csv[0]]
 	if !ok {
 		return
 	}
 
-	machine = Machines[csv[0]]
-	if machine.Usages != nil {
-		usages = machine.Usages
+	container = Containers[csv[0]]
+
+	if container.Usages != nil {
+		usages = container.Usages
 	} else {
-		usages = make(map[int]MUsage)
+		usages = make(map[int]CUsage)
 	}
 
-	cup ,_:= strconv.Atoi(csv[2])
-	mup ,_:= strconv.Atoi(csv[3])
-	mg ,_:= strconv.ParseFloat(csv[4],64)
-	mpki,_ := strconv.Atoi(csv[5])
-	ni ,_:= strconv.ParseFloat(csv[6],64)
-	no ,_:= strconv.ParseFloat(csv[7],64)
-	dip ,_:= strconv.ParseFloat(csv[8],64)
+	if ts >= 1800+container.TimeStamp{
+		return
+	}
 
-	usages[ts] = MUsage{CpuPercent:cup,MemPercent:mup,MemGps:mg,Mpki:mpki,NetIn:ni,NetOut:no,DiskIoPercent: dip}
-	machine.Usages = usages
+	cup ,_:= strconv.Atoi(csv[3])
+	mpki,_ := strconv.Atoi(csv[7])
+	cpi ,_:= strconv.ParseFloat(csv[5],64)
+	mup ,_:= strconv.Atoi(csv[4])
+	mg ,_:= strconv.ParseFloat(csv[6],64)
+	dip ,_:= strconv.ParseFloat(csv[10],64)
+	ni ,_:= strconv.ParseFloat(csv[8],64)
+	no ,_:= strconv.ParseFloat(csv[9],64)
 
-	Machines[csv[0]] = machine
+	usages[ts] = CUsage{MachineId: csv[1],CpuPercent:cup,Mpki:mpki,Cpi:cpi,MemPercent:mup,MemGps:mg,NetIn:ni,NetOut:no,DiskIoPercent: dip}
+	container.Usages = usages
+
+	Containers[csv[0]] = container
+}
+
+func ExportContainersYaml(name string){
+	size :=0
+	fileObj,err := os.OpenFile(Prefix+name+".yaml",os.O_RDWR|os.O_CREATE|os.O_TRUNC,0644)
+	defer fileObj.Close()
+
+	if err != nil {
+		fmt.Println("Failed to open the file",err.Error())
+		os.Exit(2)
+	}
+
+	for key,value := range Containers {
+		TempMap := make(map[string]Container)
+		TempMap["xyjC:"+key] = value
+		d, err2 := yaml.Marshal(&TempMap)
+		if err2 != nil {
+			log.Fatalf("error: %v", err)
+		}
+		n, _ := fileObj.Seek(0,os.SEEK_END)
+		_,err2 = fileObj.WriteAt(d,n)
+		size++
+	}
+	log.Println("for Container:", size)
 }
