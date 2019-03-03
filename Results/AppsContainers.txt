@@ -1,0 +1,11 @@
+2019/03/04 02:38:36 Current start or end At: 1551638316
+2019/03/04 02:38:39 Comsumer starts at 1551638319
+2019/03/04 02:38:39 Current start or end At: 1551638319
+2019/03/04 02:38:39 Current start or end At: 1551638319
+2019/03/04 02:38:39 Total Producer Seconds: 3
+2019/03/04 02:38:39 Current start or end At: 1551638319
+2019/03/04 02:38:39 Total tasks' lines: 370540
+2019/03/04 02:38:39 Total Consumer Seconds: 0
+2019/03/04 02:38:41 Statistical information of containers:
+2019/03/04 02:38:41 apps counts:  9790
+2019/03/04 02:38:41 container counts:  71476
