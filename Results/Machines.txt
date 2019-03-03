@@ -1,0 +1,12 @@
+2019/03/03 21:50:29 Current start or end At: 1551621029
+2019/03/03 21:50:29 Current start or end At: 1551621029
+2019/03/03 21:50:29 Total Producer Seconds: 0
+2019/03/03 21:50:30 Comsumer starts at 1551621030
+2019/03/03 21:50:30 Current start or end At: 1551621030
+2019/03/03 21:50:30 Current start or end At: 1551621030
+2019/03/03 21:50:30 Total Consumer Seconds: 0
+2019/03/03 21:50:30 Mahcine meta lines:  17592
+Successful writing to the file with os.OpenFile and *File.WriteString method.
+Successful writing to thr file with os.OpenFile and *File.Write method.
+2019/03/03 21:50:30 Statistical information of machines:
+2019/03/03 21:50:30 Machine counts:  4034

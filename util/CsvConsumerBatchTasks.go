@@ -6,7 +6,7 @@ import (
 	"clusterdata-go/middle"
 )
 
-func ConvertCsv()  {
+func ConvertTasks()  {
 	timestamp := time.Now().Unix()
 	log.Println("Comsumer starts at",timestamp)
 	var size int64;
@@ -22,11 +22,5 @@ func ConvertCsv()  {
 	log.Println("Total tasks' lines:",size)
 	middle.ExportDuplication()
 	log.Println("Total Consumer Seconds:",(endTime-startTime))
-	middle.ExoprtBatchTaskYaml()
-}
-
-func PrintFirst100(size int64, x string)  {
-	if(size <200){
-		log.Println(x)
-	}
+	middle.ExportBatchTaskYaml()
 }

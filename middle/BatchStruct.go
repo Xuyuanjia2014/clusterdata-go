@@ -92,7 +92,7 @@ func WriteWithFileWrite(name,content string){
 	}
 }
 
-func ExoprtBatchTaskYaml(){
+func ExportBatchTaskYaml(){
 	d, err := yaml.Marshal(&Jobs)
 	if err != nil {
 		log.Fatalf("error: %v", err)
