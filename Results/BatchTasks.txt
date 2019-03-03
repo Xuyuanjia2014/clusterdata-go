@@ -1,0 +1,23 @@
+2019/03/03 20:40:54 Current start or end At: 1551616854
+2019/03/03 20:40:57 Comsumer starts at 1551616857
+2019/03/03 20:40:57 Current start or end At: 1551616857
+2019/03/03 20:41:12 Current start or end At: 1551616872
+2019/03/03 20:41:12 Total Producer Seconds: 18
+2019/03/03 20:41:13 Current start or end At: 1551616873
+2019/03/03 20:41:13 Total tasks' lines: 14295731
+2019/03/03 20:41:13 Total tasks: 417587
+2019/03/03 20:41:13 Total Consumer Seconds: 16
+2019/03/03 20:41:25 Statistical information of Jobs, tasks and instances:
+2019/03/03 20:41:25 Jobs' count: 12
+2019/03/03 20:41:25 job Name: 7  ; Tasks' count: 1
+2019/03/03 20:41:25 job Name: 1  ; Tasks' count: 17997
+2019/03/03 20:41:25 job Name: 6  ; Tasks' count: 3
+2019/03/03 20:41:25 job Name: 3  ; Tasks' count: 34
+2019/03/03 20:41:25 job Name: 8  ; Tasks' count: 28
+2019/03/03 20:41:25 job Name: 5  ; Tasks' count: 399489
+2019/03/03 20:41:25 job Name: 9  ; Tasks' count: 2
+2019/03/03 20:41:25 job Name: 12  ; Tasks' count: 16
+2019/03/03 20:41:25 job Name: 2  ; Tasks' count: 3
+2019/03/03 20:41:25 job Name: 10  ; Tasks' count: 1
+2019/03/03 20:41:25 job Name: 11  ; Tasks' count: 12
+2019/03/03 20:41:25 job Name: 4  ; Tasks' count: 1
