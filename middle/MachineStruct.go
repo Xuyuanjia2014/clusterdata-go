@@ -1,10 +1,11 @@
 package middle
 
 import (
-	strings "strings"
+	"strings"
 	"strconv"
 	"gopkg.in/yaml.v2"
 	"log"
+	"io/ioutil"
 )
 
 type Machine struct {
@@ -27,7 +28,7 @@ type MUsage struct {
 	NetOut float64 `yaml:"no"`
 }
 
-var machines = make(map[string]Machine)
+var Machines = make(map[string]Machine)
 
 func MachineProcess(line string, size int64)  {
 	var machine Machine
@@ -41,26 +42,44 @@ func MachineProcess(line string, size int64)  {
 	cn ,_:= strconv.Atoi(csv[4])
 	ms ,_:= strconv.Atoi(csv[5])
 
-	_,ok := machines[csv[0]]
+	_,ok := Machines[csv[0]]
 
 	if ok {
-		machine = machines[csv[0]]
+		machine = Machines[csv[0]]
 	} else {
 		machine = Machine{Usages:make(map[int]MUsage),TimeStamp:ts,Level1:l1,Level2:csv[3],CpuNum:cn,MemSize:ms,Status:csv[6]}
 	}
 	if ts <machine.TimeStamp{
 		machine.TimeStamp = ts
 	}
-	machines[csv[0]] = machine
+	Machines[csv[0]] = machine
 }
 
 func ExportMachinesYaml(){
-	d, err := yaml.Marshal(&machines)
+	d, err := yaml.Marshal(&Machines)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
 	log.Println("Statistical information of machines:")
-	log.Println("Machine counts: ",len(machines))
+	log.Println("Machine counts: ",len(Machines))
 	WriteWithFileWrite(Prefix+"Machines.yaml",string(d))
+}
+
+func InitMachineMeta(name string){
+	contents := ReadAll(Prefix+name)
+	if contents ==nil{
+		return
+	}
+	err := yaml.Unmarshal(contents,&Machines)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+}
+
+func ReadAll(path string) []byte{
+	if contents,err := ioutil.ReadFile(path);err == nil {
+		return contents
+	}
+	return nil
 }
 

@@ -2,7 +2,8 @@ package main
 
 import (
 	"time"
-	"clusterdata-go/util"
+	"clusterdata-go/middle"
+	"log"
 )
 
 var Batch_instance ="E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv"
@@ -19,8 +20,14 @@ func main() {
 	//time.Sleep(3 * time.Second)
 	//go util.ConvertTasks()
 
-	go util.ReadCsv(Machine_meta)
-	time.Sleep(1 * time.Second)
-	go util.ConvertMachines()
+	//go util.ReadCsv(Machine_meta)
+	//time.Sleep(1 * time.Second)
+	//go util.ConvertMachines()
+
+	middle.InitMachineMeta("Machines.yaml")
+	log.Println("For example, m_3:", middle.Machines["m_3"])
+
+
+
 	time.Sleep(7200 * time.Second)
 }
