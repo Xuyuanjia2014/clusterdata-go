@@ -49,14 +49,19 @@ func ContainersProcess(line string, size int64)  {
 		log.Println("for line: ", size," ; string:",line,"  ERROR!")
 		return
 	}
+
+	ts ,_:= strconv.Atoi(csv[2])
+
 	_,ok := Apps[csv[3]]
 	if ok {
 		app = Apps[csv[3]]
 	} else {
 		app = AppDu{Containers:make(map[string]Container)}
 	}
-
-	ts ,_:= strconv.Atoi(csv[2])
+	container,ok2 :=app.Containers[csv[0]]
+	if ok2 && container.TimeStamp < ts {
+		ts = container.TimeStamp
+	}
 	cr ,_:= strconv.Atoi(csv[5])
 	cl ,_:= strconv.Atoi(csv[6])
 	ms ,_:= strconv.ParseFloat(csv[7],64)
@@ -123,7 +128,7 @@ func ContainerUsageProcess(line string, size int64)  {
 		usages = make(map[int]CUsage)
 	}
 
-	if ts >= 1800+container.TimeStamp{
+	if len(usages) >100 {
 		return
 	}
 
@@ -138,6 +143,19 @@ func ContainerUsageProcess(line string, size int64)  {
 
 	usages[ts] = CUsage{MachineId: csv[1],CpuPercent:cup,Mpki:mpki,Cpi:cpi,MemPercent:mup,MemGps:mg,NetIn:ni,NetOut:no,DiskIoPercent: dip}
 	container.Usages = usages
+	container.Ucounts = len(usages)
+
+	Containers[csv[0]] = container
+}
+
+func ContainerUsageCountProcess(line string, size int64)  {
+	var container Container
+
+	csv := strings.Split(line,",")
+
+	container = Containers[csv[0]]
+
+	container.Ucounts++
 
 	Containers[csv[0]] = container
 }
@@ -165,3 +183,4 @@ func ExportContainersYaml(name string){
 	}
 	log.Println("for Container:", size)
 }
+

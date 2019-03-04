@@ -2,7 +2,6 @@ package main
 
 import (
 	"time"
-	"clusterdata-go/middle"
 	"clusterdata-go/util"
 )
 
@@ -30,14 +29,14 @@ func main() {
 	//time.Sleep(3 * time.Second)
 	//go util.ConvertMachinesCounts()
 	//
-	//go util.ReadCsv(Container_meta)
-	//time.Sleep(3 * time.Second)
-	//go util.ConvertContainerMeta()
-
-	middle.InitContainerMeta("containersMeta.yaml")
-	go util.ReadCsv(Container_usage)
+	go util.ReadCsv(Container_meta)
 	time.Sleep(3 * time.Second)
-	go util.ConvertContainersUsage()
+	go util.ConvertContainerMeta()
+
+	//middle.InitContainerMeta("containersMeta.yaml")
+	//go util.ReadCsv(Container_usage)
+	//time.Sleep(3 * time.Second)
+	//go util.ConvertContainersUsage()
 
 	time.Sleep(7200 * time.Second)
 }

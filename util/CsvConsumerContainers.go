@@ -31,7 +31,7 @@ func ConvertContainersUsage()  {
 	startTime := CurrentTime()
 	for x := range Channel{
 		//PrintFirst100(size,x)
-		middle.ContainerUsageProcess(x,size)
+		middle.ContainerUsageCountProcess(x,size)
 		size++;
 		if(size %10000000 == 0){
 			log.Println("size: ",size)
@@ -41,5 +41,5 @@ func ConvertContainersUsage()  {
 	endTime := CurrentTime()
 	log.Println("size: ",size)
 	log.Println("Total Consumer Seconds:",(endTime-startTime))
-	middle.ExportContainersYaml("containerusages")
+	middle.ExportContainersYaml("containerusagesCounts")
 }
