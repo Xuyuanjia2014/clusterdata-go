@@ -1,9 +1,6 @@
 package main
 
-import (
-	"time"
-	"clusterdata-go/util"
-)
+import "clusterdata-go/drawer"
 
 var Batch_instance ="E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv"
 var Batch_task = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_task.csv"
@@ -29,14 +26,22 @@ func main() {
 	//time.Sleep(3 * time.Second)
 	//go util.ConvertMachinesCounts()
 	//
-	go util.ReadCsv(Container_meta)
-	time.Sleep(3 * time.Second)
-	go util.ConvertContainerMeta()
-
-	//middle.InitContainerMeta("containersMeta.yaml")
-	//go util.ReadCsv(Container_usage)
+	//go util.ReadCsv(Container_meta)
 	//time.Sleep(3 * time.Second)
-	//go util.ConvertContainersUsage()
+	//go util.ConvertContainerMeta()
+	//
+	////middle.InitContainerMeta("containersMeta.yaml")
+	////go util.ReadCsv(Container_usage)
+	////time.Sleep(3 * time.Second)
+	////go util.ConvertContainersUsage()
+	//
 
-	time.Sleep(7200 * time.Second)
+	drawer.Test()
+	//middle.InitJobs("BatchTasks.yaml")
+	//statistics.Calculate()
+	//statistics.GetOneDayUsage("machineusages.yaml")
+
+	//go util.ReadCsvObject(middle.Prefix+"machineusages.yaml")
+	//go util.ConvertBigObject()
+	//time.Sleep(7200 * time.Second)
 }

@@ -108,6 +108,18 @@ func ExportBatchTaskYaml(){
 	WriteWithFileWrite(Prefix+"BatchTasks.yaml",string(d))
 }
 
+func InitJobs(name string){
+	contents := ReadAll(Prefix+name)
+	if contents ==nil{
+		return
+	}
+	err := yaml.Unmarshal(contents,&Jobs)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	log.Println("Load jobs' meta information:", len(Jobs.AllJobs))
+}
+
 func CheckDuplication(line string,size int64) {
 	csv := strings.Split(line,",")
 	value,ok := JobTaskSet[csv[3]+csv[0]]

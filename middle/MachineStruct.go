@@ -101,6 +101,7 @@ func InitMachineMeta(name string){
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
+	log.Println("load one day data.")
 }
 
 func ReadAll(path string) []byte{
