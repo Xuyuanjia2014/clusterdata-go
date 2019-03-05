@@ -57,12 +57,12 @@ func ReadCsvObject(path string)  {
 		if err != nil {
 			log.Fatal(err)
 		}
-		if(strings.HasPrefix(line,"xyjM:") && content ==""){
+		if(strings.HasPrefix(line,"xyjC:") && content ==""){
 			content+=line
 			continue
 		}
-		if(strings.HasPrefix(line,"xyjM:") && strings.HasPrefix(content,"xyjM:")){
-			Channel <- strings.Replace(content,"xyjM:","",1)
+		if(strings.HasPrefix(line,"xyjC:") && strings.HasPrefix(content,"xyjC:")){
+			Channel <- strings.Replace(content,"xyjC:","",1)
 			content=line
 			continue
 		}

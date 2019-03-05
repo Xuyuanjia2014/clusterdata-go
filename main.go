@@ -1,8 +1,9 @@
 package main
 
 import (
+	"clusterdata-go/util"
 	"clusterdata-go/middle"
-	"clusterdata-go/statistics"
+	"time"
 )
 
 var Batch_instance ="E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv"
@@ -48,6 +49,10 @@ func main() {
 	//go util.ConvertBigObject()
 	//time.Sleep(7200 * time.Second)
 
-	middle.InitContainerMeta("containersMeta.yaml")
-	statistics.SimpleFindCountsInApp()
+	//middle.InitContainerMeta("containersMeta.yaml")
+	//statistics.SimpleFindCountsInApp()
+
+	go util.ReadCsvObject(middle.Prefix+"containerusagesfirst100.yaml")
+	go util.ConvertBigContainerObject()
+	time.Sleep(7200 * time.Second)
 }

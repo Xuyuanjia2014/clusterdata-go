@@ -7,6 +7,7 @@ import (
 "gonum.org/v1/plot/plotutil"
 "gonum.org/v1/plot/vg"
 	"clusterdata-go/middle"
+	"clusterdata-go/statistics"
 )
 
 func Test() {
@@ -16,19 +17,19 @@ func Test() {
 		panic(err)
 	}
 
-	p.Title.Text = "12 Hours' machine resoure utilization"
-	p.X.Label.Text = "Hours"
+	p.Title.Text = "100 Times container resoure utilization"
+	p.X.Label.Text = "times"
 	p.Y.Label.Text = "Utilization"
 	err = plotutil.AddLinePoints(p,
-		"max", Max(),
-		"avg", Avg(),
-		"min", Min())
+		"max", Select(1),
+		"avg", Select(2),
+		"min", Select(3))
 	if err != nil {
 		panic(err)
 	}
 
 	// Save the plot to a PNG file.
-	if err := p.Save(15*vg.Inch, 6*vg.Inch, middle.Prefix+"machine12hours.png"); err != nil {
+	if err := p.Save(15*vg.Inch, 6*vg.Inch, middle.Prefix+"container100times.png"); err != nil {
 		panic(err)
 	}
 }
@@ -72,6 +73,23 @@ func Min() plotter.XYs {
 	var avg = [12]int{1,1,1,1,1,1,1,1,1,1,1,1}
 	for i := range pts {
 		pts[i] = plotter.XY{X:float64(i),Y:float64(avg[i])}
+	}
+	return pts
+
+}
+
+func Select(t int) plotter.XYs {
+	pts := make(plotter.XYs, 101)
+	for i := range pts {
+		if t == 1{
+			pts[i] = plotter.XY{X:float64(i),Y:float64(statistics.Clines[i].Max)}
+		}
+		if(t == 2){
+			pts[i] = plotter.XY{X:float64(i),Y:float64(statistics.Clines[i].Avg)}
+		}
+		if(t == 3){
+			pts[i] = plotter.XY{X:float64(i),Y:float64(statistics.Clines[i].Min)}
+		}
 	}
 	return pts
 
